@@ -1,7 +1,7 @@
 const WebSocket = require('ws');
 const axios = require('axios');
 
-const PORT = 8080; // 👈 forzamos manualmente el puerto 8080
+const PORT = 8090; // 👈 forzamos manualmente el puerto 8080
 
 const wss = new WebSocket.Server({ port: PORT });
 
