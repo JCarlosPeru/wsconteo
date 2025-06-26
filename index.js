@@ -26,13 +26,12 @@ wss.on('connection', function connection(ws, req) {
 
       // Enviar a n8n webhook
       const response = await axios.post('https://iaprods-01-iaprodsn8n.6ui5el.easypanel.host/webhook/conteo-personas', {
-        payload: payload
+        payload: data.toString()
       });
-
+      console.log('📤 Payload enviado a n8n:', payload);
       console.log("✅ Datos enviados a n8n con éxito:", response.status);
     } catch (error) {
       console.error("❌ Error al enviar a n8n:", error.message);
     }
   });
 });
-
