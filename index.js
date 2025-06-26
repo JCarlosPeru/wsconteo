@@ -14,15 +14,24 @@ wss.on('connection', function connection(ws, req) {
   ws.send("OK"); // 👈 Enviamos "OK" inmediatamente
   console.log('📤 Enviado: OK');
 
-  ws.on('message', async function incoming(data) {
-    console.log('📥 Datos recibidos:', data.toString());
-
+  ws.on('message', async (data) => {
     try {
-      await axios.post('https://TUN8N/webhook/conteo-personas', {
-        payload: data.toString()
+      const payload = data.toString();
+
+      // Opcional: Validar que el mensaje empieza con lo esperado
+      //if (!payload.startsWith("Published =>")) {
+      //  console.log("❌ Formato inesperado, ignorado.");
+      //  return;
+      //}
+
+      // Enviar a n8n webhook
+      const response = await axios.post('https://iaprods-01-iaprodsn8n.6ui5el.easypanel.host/webhook/conteo-personas', {
+        payload: payload
       });
-    } catch (err) {
-      console.error('❌ Error al enviar a n8n:', err.message);
+
+      console.log("✅ Datos enviados a n8n con éxito:", response.status);
+    } catch (error) {
+      console.error("❌ Error al enviar a n8n:", error.message);
     }
   });
 });
